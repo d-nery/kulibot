@@ -1,0 +1,6 @@
+[submodule "DPP"]
+	path = deps/DPP
+	url = https://github.com/brainboxdotcc/DPP.git
+[submodule "spdlog"]
+	path = deps/spdlog
+	url = https://github.com/gabime/spdlog.git
