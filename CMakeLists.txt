@@ -10,6 +10,8 @@ add_executable(kulibot main.cpp
     bot/Kulibot.cpp
     commands/ping.cpp
     commands/boh.cpp
+    utils/inventory.cpp
+    utils/config.cpp
 )
 
 add_subdirectory(deps/DPP)

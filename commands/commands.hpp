@@ -10,6 +10,8 @@ struct PingCmd : Command {
     bool run(const dpp::interaction_create_t& event) override;
 };
 
+json read_boh(void);
+
 struct BOHCmd : Command {
     BOHCmd();
     bool run(const dpp::interaction_create_t& event) override;
