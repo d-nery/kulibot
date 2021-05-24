@@ -50,5 +50,5 @@ TEST_F(InventoryTest, ErrorOnInsertExisting) {
     Kulike::inventory::add_item("category1", {"item1", "desc1", 0});
 
     std::string test = _oss.str();
-    ASSERT_EQ(test, "Item already exists!\n");
+    ASSERT_EQ(test, "[inventory] Item already exists!\n");
 }

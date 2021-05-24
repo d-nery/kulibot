@@ -1,0 +1,8 @@
+{
+    "token": "ABCDEFGH",
+    "path": "path/to/file.txt",
+    "nested": {
+        "key1": "val1",
+        "key2": "val2"
+    }
+}

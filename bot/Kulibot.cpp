@@ -7,13 +7,17 @@
 
 namespace Kulike {
 
-Kulibot::Kulibot(std::string token) : dpp::cluster(token) {
-    spdlog::set_level(spdlog::level::level_enum::debug);
-    spdlog::info("Initializing Kulibot...");
-}
+Kulibot::Kulibot(std::string token) : dpp::cluster(token) { spdlog::info("Initializing Kulibot..."); }
 
 void Kulibot::add_command(Command* cmd) {
     cmd->set_app_id(this->me.id);
+
+    // If a command with the same key already exists, we need to delete it
+    // to avoid a leak by simply replacing it
+    if (this->commands.contains(cmd->get_key())) {
+        delete this->commands[cmd->get_key()];
+    }
+
     this->commands[cmd->get_key()] = cmd;
 }
 
@@ -48,22 +52,26 @@ void Kulibot::setup_interactions() {
         (void)event;
 
         spdlog::info(fmt::format("Logged in as {}.", this->me.username));
+        // TODO: This is always returning 0
         spdlog::info(fmt::format("Connected to {} guilds.", event.from->get_guild_count()));
         spdlog::info(fmt::format("Connected to {} users.", event.from->get_member_count()));
 
         for (auto& [key, cmd] : this->commands) {
             spdlog::info(fmt::format("Registering {}", key));
-            this->global_command_create(cmd->get_inner_command(), [&](const dpp::confirmation_callback_t& c) {
-                if (!std::get<dpp::confirmation>(c.value).success) {
-                    spdlog::error(fmt::format("Couldn't register command {}: {}", key, c.http_info.body));
-                    return;
-                }
 
-                json response = json::parse(c.http_info.body);
-                std::string cmd_id = response["id"];
-                cmd->set_id(std::stoull(cmd_id));
-                spdlog::debug(fmt::format("Successfully registered command {}", key));
-            });
+            // Registering only on test guild for now, for faster command updates
+            this->guild_command_create(
+                cmd->get_inner_command(), 232165233827774464, [&](const dpp::confirmation_callback_t& c) {
+                    if (!std::get<dpp::confirmation>(c.value).success) {
+                        spdlog::error(fmt::format("Couldn't register command {}: {}", key, c.http_info.body));
+                        return;
+                    }
+
+                    json response = json::parse(c.http_info.body);
+                    std::string cmd_id = response["id"];
+                    cmd->set_id(std::stoull(cmd_id));
+                    spdlog::debug(fmt::format("Successfully registered command {}", key));
+                });
         }
     });
 
@@ -99,7 +107,7 @@ Kulibot::~Kulibot() {
 
     for (auto& [key, cmd] : this->commands) {
         spdlog::info(fmt::format("Deleting {}", key));
-        this->global_command_delete(cmd->get_id(), [key](const dpp::confirmation_callback_t& c) {
+        this->guild_command_delete(cmd->get_id(), 232165233827774464, [key](const dpp::confirmation_callback_t& c) {
             if (!std::get<dpp::confirmation>(c.value).success) {
                 spdlog::error(fmt::format("Couldn't delete command {}: {}", key, c.http_info.body));
                 return;

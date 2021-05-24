@@ -1,3 +1,11 @@
+/**
+ * @file char.cpp
+ * @brief Character related commands, shows characters stats
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <sstream>
 
 #include <dpp/dpp.h>
@@ -30,7 +38,7 @@ CharCmd::CharCmd() {
 
     dpp::command_option char_option(dpp::co_string, "name", "Personagem a ser listado", true);
 
-    for (auto key : characters::list()) {
+    for (auto& key : characters::list()) {
         auto c = characters::get(key);
 
         char_option.add_choice(dpp::command_option_choice(c.name, key));

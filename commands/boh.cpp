@@ -1,3 +1,11 @@
+/**
+ * @file boh.cpp
+ * @brief Bag of Holding (inventory) commands
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <sstream>
 
 #include <dpp/dpp.h>
@@ -93,6 +101,9 @@ bool BOHCmd::run(const dpp::interaction_create_t& event) {
     return true;
 }
 
-BOHCmd::~BOHCmd() { spdlog::debug("Destroying BOHCmd"); }
+BOHCmd::~BOHCmd() {
+    spdlog::debug("Destroying BOHCmd");
+    inventory::save(config::get_string(config_key));
+}
 
 } // namespace Kulike

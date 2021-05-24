@@ -1,3 +1,11 @@
+/**
+ * @file main.cpp
+ * @brief Main file for the kulibot
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <csignal>
 #include <iostream>
 
@@ -16,9 +24,13 @@ using namespace Kulike;
 std::atomic<bool> should_quit(false);
 
 int main() {
-    std::cout << "Starting..." << std::endl;
+    spdlog::set_level(spdlog::level::level_enum::debug);
+    spdlog::info("[main] Starting...");
 
-    config::load("./config.json");
+    if (!config::load("./config.json")) {
+        spdlog::error("[main] Failed to load config, aborting...");
+        std::exit(1);
+    }
 
     Kulike::Kulibot bot(config::get_string("token"));
 
@@ -32,7 +44,7 @@ int main() {
     signal(SIGINT, [](int sig_num) {
         (void)sig_num;
 
-        std::cout << "Received SIGINT, stopping..." << std::endl;
+        spdlog::info("[main] Received SIGINT, stopping...");
         should_quit.store(true);
     });
 
@@ -41,7 +53,6 @@ int main() {
     while (!should_quit.load()) {
     }
 
-    std::cout << "Quitting..." << std::endl;
-    // std::terminate();
+    spdlog::info("[main] Quitting...");
     return 0;
 }

@@ -1,3 +1,12 @@
+/**
+ * @file ping.cpp
+ * @brief This commands justa answers the message,
+ *        can be used to check if bot is alive
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <dpp/dpp.h>
 #include <spdlog/spdlog.h>
 

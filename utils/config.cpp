@@ -1,3 +1,11 @@
+/**
+ * @file config.cpp
+ * @brief Definitions for global configuration access
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <fstream>
 #include <sstream>
 
@@ -12,10 +20,10 @@ namespace config {
 static bool loaded = false;
 static nlohmann::json j_config;
 
-void load(const std::string file) {
+bool load(const std::string file) {
     if (loaded) {
         spdlog::warn("[config] Trying to load again");
-        return;
+        return false;
     }
 
     try {
@@ -23,10 +31,11 @@ void load(const std::string file) {
         fstream >> j_config;
     } catch (std::exception& e) {
         spdlog::error(fmt::format("[config] Failed to open/parse file: {}", e.what()));
-        return;
+        return false;
     }
 
     loaded = true;
+    return true;
 }
 
 std::string get_string(const std::string key) {
@@ -39,6 +48,7 @@ std::string get_string(const std::string key) {
     std::string field;
     nlohmann::json j = j_config;
 
+    // Split key on / to find nested fields
     try {
         while (std::getline(ss, field, '/')) {
             j = j.at(field);

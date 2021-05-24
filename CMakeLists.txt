@@ -32,12 +32,14 @@ add_custom_command(TARGET kulibot PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:kulibot>/data)
 if(COMPILE_TEST)
-  enable_testing()
+  # enable_testing()
 
   add_executable(kuliteste
     tests/inventory_test.cpp
+    tests/config_test.cpp
 
     utils/inventory.cpp
+    utils/config.cpp
   )
 
   add_subdirectory(deps/googletest)

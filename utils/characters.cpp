@@ -1,3 +1,12 @@
+/**
+ * @file characters.cpp
+ * @brief Definitions for global characters access
+ * @note For now this is read only
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -18,10 +27,10 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character, name, race, classes, background, a
 static bool loaded = false;
 static std::unordered_map<std::string, Character> char_map;
 
-void load(const std::string folder) {
+bool load(const std::string folder) {
     if (loaded) {
         spdlog::warn("[characters] Trying to load characters again");
-        return;
+        return false;
     }
 
     fs::path path = folder;
@@ -32,7 +41,7 @@ void load(const std::string folder) {
         }
 
         std::string key = file.path().stem();
-        spdlog::debug(fmt::format("[character] Loading {}", key));
+        spdlog::debug(fmt::format("[characters] Loading {}", key));
 
         nlohmann::json char_data;
         Character character;
@@ -42,7 +51,7 @@ void load(const std::string folder) {
             fstream >> char_data;
             char_data.get_to(character);
         } catch (std::exception& e) {
-            spdlog::error(fmt::format("Failed to open/parse char file: {}", e.what()));
+            spdlog::error(fmt::format("[characters] Failed to open/parse char file: {}", e.what()));
             continue;
         }
 
@@ -52,6 +61,7 @@ void load(const std::string folder) {
     spdlog::debug(fmt::format("[characters] Loaded {} character(s) to map", char_map.size()));
 
     loaded = true;
+    return true;
 }
 
 std::vector<std::string> list() {

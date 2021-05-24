@@ -1,3 +1,11 @@
+/**
+ * @file inventory.cpp
+ * @brief Definitions for global inventory access
+ *
+ * @author Daniel Nery <danielnso97@gmail.com>
+ * @date 05/2021
+ */
+
 #include <fstream>
 #include <iostream>
 #include <mutex>
@@ -10,6 +18,9 @@
 namespace Kulike {
 namespace inventory {
 
+/**
+ * @brief private struct representing the inventory json format
+ */
 struct s_inv {
     uint64_t gold;
 
@@ -30,17 +41,31 @@ struct s_inv {
     std::map<std::string, std::vector<Item>> items;
 };
 
+/**
+ * @brief mutex for inventory read/write
+ */
 static std::mutex inv_mutex;
+
+/**
+ * @brief the inventory itself
+ */
 static s_inv inventory;
+
+/**
+ * @brief true if the inventory has already been loaded
+ */
 static bool loaded = false;
 
+/**
+ * @brief NLOHMANN default json parsers for the structs
+ */
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Item, name, description, amount)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(s_inv, gold, items)
 
-void load(const std::string file) {
+bool load(const std::string file) {
     if (loaded) {
         spdlog::warn("[inventory] Trying to load again");
-        return;
+        return false;
     }
 
     spdlog::info(fmt::format("[inventory] Loading {}", file));
@@ -53,10 +78,11 @@ void load(const std::string file) {
         j.get_to(inventory);
     } catch (std::exception& e) {
         spdlog::error(fmt::format("[inventory] Failed to open/parse inventory file: {}", e.what()));
-        return;
+        return false;
     }
 
     loaded = true;
+    return false;
 }
 
 void save(const std::string file) {
