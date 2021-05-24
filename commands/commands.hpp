@@ -3,19 +3,18 @@
 
 #include "bot/Command.hpp"
 
+#define cmd_decl(name)                                                                                                 \
+    struct name : Command {                                                                                            \
+        name();                                                                                                        \
+        ~name();                                                                                                       \
+        bool run(const dpp::interaction_create_t& event) override;                                                     \
+    }
+
 namespace Kulike {
 
-struct PingCmd : Command {
-    PingCmd();
-    bool run(const dpp::interaction_create_t& event) override;
-};
-
-json read_boh(void);
-
-struct BOHCmd : Command {
-    BOHCmd();
-    bool run(const dpp::interaction_create_t& event) override;
-};
+cmd_decl(PingCmd);
+cmd_decl(BOHCmd);
+cmd_decl(CharCmd);
 
 } // namespace Kulike
 

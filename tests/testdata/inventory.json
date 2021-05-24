@@ -1,0 +1,24 @@
+{
+    "gold": 100,
+    "items": {
+        "category1": [
+            {
+                "name": "item1",
+                "description": "desc1",
+                "amount": 0
+            },
+            {
+                "name": "item2",
+                "description": "desc2",
+                "amount": 1
+            }
+        ],
+        "category2": [
+            {
+                "name": "item3",
+                "description": "desc3",
+                "amount": 2
+            }
+        ]
+    }
+}

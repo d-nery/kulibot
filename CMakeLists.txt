@@ -3,13 +3,15 @@ project(Kulibot VERSION 0.1)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-find_package(Boost REQUIRED)
+set(COMPILE_TEST False)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og")
 
 add_executable(kulibot main.cpp
     bot/Kulibot.cpp
     commands/ping.cpp
     commands/boh.cpp
+    commands/char.cpp
+    utils/characters.cpp
     utils/inventory.cpp
     utils/config.cpp
 )
@@ -25,3 +27,30 @@ target_include_directories(kulibot PUBLIC deps/DPP/include)
 target_include_directories(kulibot PUBLIC deps/spdlog/include)
 
 configure_file(config.json ${CMAKE_CURRENT_BINARY_DIR}/config.json COPYONLY)
+
+add_custom_command(TARGET kulibot PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:kulibot>/data)
+if(COMPILE_TEST)
+  enable_testing()
+
+  add_executable(kuliteste
+    tests/inventory_test.cpp
+
+    utils/inventory.cpp
+  )
+
+  add_subdirectory(deps/googletest)
+  target_link_libraries(kuliteste gtest_main)
+
+  target_include_directories(kuliteste PUBLIC .)
+  target_include_directories(kuliteste PUBLIC deps/DPP/include)
+  target_include_directories(kuliteste PUBLIC deps/spdlog/include)
+
+  add_custom_command(TARGET kuliteste POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory
+                         ${CMAKE_SOURCE_DIR}/tests/testdata $<TARGET_FILE_DIR:kuliteste>/testdata)
+
+  include(GoogleTest)
+  gtest_discover_tests(kuliteste)
+endif()

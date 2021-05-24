@@ -48,6 +48,8 @@ void Kulibot::setup_interactions() {
         (void)event;
 
         spdlog::info(fmt::format("Logged in as {}.", this->me.username));
+        spdlog::info(fmt::format("Connected to {} guilds.", event.from->get_guild_count()));
+        spdlog::info(fmt::format("Connected to {} users.", event.from->get_member_count()));
 
         for (auto& [key, cmd] : this->commands) {
             spdlog::info(fmt::format("Registering {}", key));
@@ -67,6 +69,7 @@ void Kulibot::setup_interactions() {
 
     this->on_interaction_create([this](const dpp::interaction_create_t& event) {
         if (event.command.type != dpp::it_application_command) {
+            spdlog::warn(fmt::format("Received wrong interaction create command type: {}", event.command.type));
             return;
         }
 
@@ -74,8 +77,6 @@ void Kulibot::setup_interactions() {
 
         if (this->commands.contains(cmd_data.name)) {
             spdlog::info(fmt::format("Running command {} by user {}.", cmd_data.name, event.command.member.nickname));
-
-            this->commands[cmd_data.name]->set_id(event.command.id);
 
             if (!this->commands[cmd_data.name]->run(event)) {
                 spdlog::error(fmt::format("Failed to run command {}", cmd_data.name));
@@ -104,7 +105,7 @@ Kulibot::~Kulibot() {
                 return;
             }
 
-            spdlog::debug(fmt::format("Deleted command {}: {}", key, c.http_info.status));
+            spdlog::debug(fmt::format("Deleted command {} [{}]", key, c.http_info.status));
         });
 
         delete cmd;

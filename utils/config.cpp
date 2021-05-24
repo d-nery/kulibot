@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 
 #include <dpp/nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -11,9 +12,9 @@ namespace config {
 static bool loaded = false;
 static nlohmann::json j_config;
 
-void load(std::string file) {
+void load(const std::string file) {
     if (loaded) {
-        spdlog::warn("Trying to load config again");
+        spdlog::warn("[config] Trying to load again");
         return;
     }
 
@@ -21,20 +22,33 @@ void load(std::string file) {
         std::ifstream fstream(file);
         fstream >> j_config;
     } catch (std::exception& e) {
-        spdlog::error(fmt::format("Failed to open config file: {}", e.what()));
+        spdlog::error(fmt::format("[config] Failed to open/parse file: {}", e.what()));
         return;
     }
 
     loaded = true;
 }
 
-std::string get_string(std::string key) {
+std::string get_string(const std::string key) {
     if (!loaded) {
-        spdlog::warn("Trying to get config before load");
+        spdlog::warn("[config] Trying to get before load");
         return "";
     }
 
-    return j_config[key];
+    std::istringstream ss{key};
+    std::string field;
+    nlohmann::json j = j_config;
+
+    try {
+        while (std::getline(ss, field, '/')) {
+            j = j.at(field);
+        }
+    } catch (nlohmann::detail::out_of_range& oor) {
+        spdlog::error(fmt::format("[config] Error getting value: {}", oor.what()));
+        return {};
+    }
+
+    return j;
 }
 
 } // namespace config

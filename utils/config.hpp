@@ -6,9 +6,14 @@
 namespace Kulike {
 namespace config {
 
-void load(std::string file);
+void load(const std::string file);
 
-std::string get_string(std::string key);
+/**
+ * @brief gets a string value from the config
+ *
+ * @param key Key to be found, nested keys are separated by /
+ */
+std::string get_string(const std::string key);
 
 } // namespace config
 } // namespace Kulike

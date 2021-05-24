@@ -15,4 +15,6 @@ bool PingCmd::run(const dpp::interaction_create_t& event) {
     return true;
 }
 
+PingCmd::~PingCmd() {}
+
 } // namespace Kulike
