@@ -27,9 +27,21 @@ struct Character {
     std::string background;                     //!< Character background
     std::string alignment;                      //!< Character alignment
     std::unordered_map<std::string, int> stats; //!< Map of charater stats and values
-    std::vector<std::string> proeficiencies;    //!< List of character trained proeficiencies
+    std::vector<std::string> proficiencies;     //!< List of character trained proficiencies
     int max_hp;                                 //!< Character maximum health
     int ac;                                     //!< Character armor class
+    int prof;                                   //!< Character proficiency bonus
+    uint64_t owner;                             //!< Id of the character owner
+
+    /**
+     * @brief rolls a dice for the given stat, adds proficiency if needed
+     */
+    uint32_t roll(std::string stat);
+
+    /**
+     * @brief gets the modifier for the given stat
+     */
+    int modifier(std::string stat);
 };
 
 /**
@@ -56,6 +68,13 @@ std::vector<std::string> list();
  * @param key Character key
  */
 Character get(const std::string key);
+
+/**
+ * @brief gets a character by ownser id
+ *
+ * @param owner owner id
+ */
+Character get(const uint64_t owner);
 
 } // namespace characters
 } // namespace Kulike

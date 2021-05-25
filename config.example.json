@@ -1,0 +1,10 @@
+{
+    "token": "",
+    "boh_path": "data/boh.json",
+    "boh_icon": "https://cdn.discordapp.com/attachments/846108250369425458/846108282095665152/boh.png",
+    "emoji": {
+        "gold_coin": "<:gold_coin:846112143740895262>",
+        "d20": "<:d20:846481339669938176>"
+    },
+    "chars_folder": "data/chars"
+}

@@ -11,6 +11,7 @@ add_executable(kulibot main.cpp
     commands/ping.cpp
     commands/boh.cpp
     commands/char.cpp
+    commands/roll.cpp
     utils/characters.cpp
     utils/inventory.cpp
     utils/config.cpp

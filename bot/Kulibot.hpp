@@ -54,12 +54,14 @@ class Kulibot : public dpp::cluster {
     void add_command(Command* cmd);
 
     /**
-     * @brief Set up the bot, must be called after all commands are added
+     * @brief Set up the bot, should be called after all commands are added
      */
     void setup();
 
     /**
-     * @brief Constructs the cluster
+     * @brief Runs the bot, must have added commands and run setup.
+     *
+     * @note This doesn't block
      */
     void run();
 };

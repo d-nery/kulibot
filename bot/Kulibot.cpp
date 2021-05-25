@@ -61,7 +61,7 @@ void Kulibot::setup_interactions() {
 
             // Registering only on test guild for now, for faster command updates
             this->guild_command_create(
-                cmd->get_inner_command(), 232165233827774464, [&](const dpp::confirmation_callback_t& c) {
+                cmd->get_inner_command(), 241188169033318400, [&](const dpp::confirmation_callback_t& c) {
                     if (!std::get<dpp::confirmation>(c.value).success) {
                         spdlog::error(fmt::format("Couldn't register command {}: {}", key, c.http_info.body));
                         return;
@@ -84,7 +84,7 @@ void Kulibot::setup_interactions() {
         dpp::command_interaction cmd_data = std::get<dpp::command_interaction>(event.command.data);
 
         if (this->commands.contains(cmd_data.name)) {
-            spdlog::info(fmt::format("Running command {} by user {}.", cmd_data.name, event.command.member.nickname));
+            spdlog::info(fmt::format("Running command {} by user {} [{}].", cmd_data.name, event.command.member.nickname, event.command.usr.id));
 
             if (!this->commands[cmd_data.name]->run(event)) {
                 spdlog::error(fmt::format("Failed to run command {}", cmd_data.name));
@@ -107,7 +107,7 @@ Kulibot::~Kulibot() {
 
     for (auto& [key, cmd] : this->commands) {
         spdlog::info(fmt::format("Deleting {}", key));
-        this->guild_command_delete(cmd->get_id(), 232165233827774464, [key](const dpp::confirmation_callback_t& c) {
+        this->guild_command_delete(cmd->get_id(), 241188169033318400, [key](const dpp::confirmation_callback_t& c) {
             if (!std::get<dpp::confirmation>(c.value).success) {
                 spdlog::error(fmt::format("Couldn't delete command {}: {}", key, c.http_info.body));
                 return;

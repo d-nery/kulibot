@@ -8,6 +8,7 @@ This bot only works with slash commands, on commands folder:
 * Ping: Just checks if it is working
 * boh: Bag of Holding commands (inventory)
 * char: Shows information about our characters
+* roll: Dice rolling, every character is tied to a Discord user ID, so they can roll their saving throws automatically
 
 ----
 

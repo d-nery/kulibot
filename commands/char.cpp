@@ -6,6 +6,7 @@
  * @date 05/2021
  */
 
+#include <set>
 #include <sstream>
 
 #include <dpp/dpp.h>
@@ -20,11 +21,13 @@ namespace Kulike {
 static const std::string config_key("chars_folder");
 
 auto joinVector = [](std::vector<std::string>& v, std::string delim) {
+    // Removing duplicates
+    std::set s(v.begin(), v.end());
     std::ostringstream oss;
 
     std::string d = "";
 
-    for (auto& cls : v) {
+    for (auto& cls : s) {
         oss << d << cls;
         d = delim;
     }
@@ -77,7 +80,7 @@ bool CharCmd::run(const dpp::interaction_create_t& event) {
         .add_field("WIS", fmt::format("{} ({})", c.stats["wis"], (c.stats["wis"] - 10) / 2), true)
         .add_field("CHA", fmt::format("{} ({})", c.stats["cha"], (c.stats["cha"] - 10) / 2), true)
         .add_field("\u200B", "\u200B", false)
-        .add_field("Proeficiencies", joinVector(c.proeficiencies, ", "), false)
+        .add_field("Proeficiencies", joinVector(c.proficiencies, ", "), false)
         .add_field("MAX HP", std::to_string(c.max_hp), true)
         .add_field("AC", std::to_string(c.ac), true);
 

@@ -27,6 +27,7 @@ namespace Kulike {
 cmd_decl(PingCmd);
 cmd_decl(BOHCmd);
 cmd_decl(CharCmd);
+cmd_decl(RollCmd);
 
 } // namespace Kulike
 
