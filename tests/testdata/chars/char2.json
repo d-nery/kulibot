@@ -1,0 +1,26 @@
+{
+    "name": "Character Name 2",
+    "race": "Human",
+    "classes": [
+        "Lore Bard (10)"
+    ],
+    "background": "Background",
+    "alignment": "Chaotic Neutral",
+    "image": "img2.png",
+    "stats": {
+        "str": 10,
+        "dex": 11,
+        "con": 12,
+        "int": 13,
+        "wis": 14,
+        "cha": 15
+    },
+    "proficiencies": [
+        "deception",
+        "cha"
+    ],
+    "max_hp": 100,
+    "ac": 10,
+    "prof": 2,
+    "owner": 1
+}

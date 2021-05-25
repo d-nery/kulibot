@@ -38,9 +38,11 @@ if(COMPILE_TEST)
   add_executable(kuliteste
     tests/inventory_test.cpp
     tests/config_test.cpp
+    tests/char_test.cpp
 
     utils/inventory.cpp
     utils/config.cpp
+    utils/characters.cpp
   )
 
   add_subdirectory(deps/googletest)

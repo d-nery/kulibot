@@ -1,0 +1,26 @@
+{
+    "name": "Character Name",
+    "race": "Human",
+    "classes": [
+        "Hunter Ranger (10)"
+    ],
+    "background": "Background",
+    "alignment": "Chaotic Good",
+    "image": "img.png",
+    "stats": {
+        "str": 10,
+        "dex": 11,
+        "con": 12,
+        "int": 13,
+        "wis": 14,
+        "cha": 15
+    },
+    "proficiencies": [
+        "arcana",
+        "dex"
+    ],
+    "max_hp": 100,
+    "ac": 10,
+    "prof": 2,
+    "owner": 1
+}
