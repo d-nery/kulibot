@@ -61,5 +61,11 @@ std::string get_string(const std::string key) {
     return j;
 }
 
+void reset() {
+    j_config = {};
+    loaded = false;
+}
+
+
 } // namespace config
 } // namespace Kulike

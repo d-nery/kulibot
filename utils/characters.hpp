@@ -63,6 +63,11 @@ bool load(const std::string folder);
 std::vector<std::string> list();
 
 /**
+ * @brief resets the characters, must read again with @ref load
+ */
+void reset();
+
+/**
  * @brief gets a character from memory
  *
  * @param key Character key

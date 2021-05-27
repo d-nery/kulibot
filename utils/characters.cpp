@@ -131,6 +131,11 @@ std::vector<std::string> list() {
     return keys;
 }
 
+void reset() {
+    char_map = {};
+    loaded = false;
+}
+
 Character get(const std::string key) {
     if (char_map.contains(key)) {
         return char_map[key];

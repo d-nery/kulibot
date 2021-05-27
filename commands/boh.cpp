@@ -39,7 +39,8 @@ BOHCmd::BOHCmd() {
         .set_description("Bag of Holding")
         .add_option(gold_subcommand.add_option(
             dpp::command_option(dpp::co_integer, "value", "Valor a ser adicionado ou subtraido")))
-        .add_option(items_subcommand);
+        .add_option(items_subcommand)
+        .add_permission({698275300978720840, dpp::cpt_role, true});
 }
 
 bool BOHCmd::run(const dpp::interaction_create_t& event) {

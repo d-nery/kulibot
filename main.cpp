@@ -39,6 +39,7 @@ int main() {
     bot.add_command(new Kulike::BOHCmd());
     bot.add_command(new Kulike::CharCmd());
     bot.add_command(new Kulike::RollCmd());
+    bot.add_command(new Kulike::ReloadCmd());
 
     bot.setup();
 

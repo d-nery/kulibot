@@ -35,6 +35,11 @@ bool load(const std::string file);
  */
 std::string get_string(const std::string key);
 
+/**
+ * @brief resets the config, must read again with @ref load
+ */
+void reset();
+
 } // namespace config
 } // namespace Kulike
 

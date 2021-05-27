@@ -67,9 +67,9 @@ void Kulibot::setup_interactions() {
                         return;
                     }
 
-                    json response = json::parse(c.http_info.body);
-                    std::string cmd_id = response["id"];
-                    cmd->set_id(std::stoull(cmd_id));
+                    // json response = json::parse(c.http_info.body);
+                    // std::string cmd_id = response["id"];
+                    // cmd->set_id(std::stoull(cmd_id));
                     spdlog::debug(fmt::format("Successfully registered command {}", key));
                 });
         }
@@ -107,7 +107,7 @@ Kulibot::~Kulibot() {
 
     for (auto& [key, cmd] : this->commands) {
         spdlog::info(fmt::format("Deleting {}", key));
-        this->guild_command_delete(cmd->get_id(), 241188169033318400, [key](const dpp::confirmation_callback_t& c) {
+        this->guild_command_delete(cmd->get_inner_command().id, 241188169033318400, [key](const dpp::confirmation_callback_t& c) {
             if (!std::get<dpp::confirmation>(c.value).success) {
                 spdlog::error(fmt::format("Couldn't delete command {}: {}", key, c.http_info.body));
                 return;

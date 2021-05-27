@@ -12,6 +12,7 @@ add_executable(kulibot main.cpp
     commands/boh.cpp
     commands/char.cpp
     commands/roll.cpp
+    commands/reload.cpp
     utils/characters.cpp
     utils/inventory.cpp
     utils/config.cpp

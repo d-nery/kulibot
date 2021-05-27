@@ -28,7 +28,7 @@ class Command {
     /**
      * @brief Getters
      */
-    dpp::slashcommand get_inner_command() const { return _command; }
+    dpp::slashcommand& get_inner_command() { return _command; }
     std::string get_key() const { return key; }
     dpp::snowflake get_id() const { return _id; }
 

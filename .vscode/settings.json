@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "build": true,
+        "deps/googletest": true,
+        "deps/spdlog": true,
+      }
+}
