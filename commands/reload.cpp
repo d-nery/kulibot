@@ -22,7 +22,7 @@ ReloadCmd::ReloadCmd() {
     this->_command.set_name(this->key)
         .set_description("Reloads files")
         .disable_default_permissions()
-        .add_permission({232163710506893312, dpp::cpt_user, true});
+        .add_permission({config::get_snowflake("owner_id"), dpp::cpt_user, true});
 }
 
 bool ReloadCmd::run(const dpp::interaction_create_t& event) {

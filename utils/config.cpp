@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 
+#include <dpp/dpp.h>
 #include <dpp/nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
@@ -60,6 +61,17 @@ std::string get_string(const std::string key) {
 
     return j;
 }
+
+dpp::snowflake get_snowflake(const std::string key) {
+    std::string value = get_string(key);
+
+    if (value.empty()) {
+        return 0;
+    }
+
+    return std::stoull(value);
+}
+
 
 void reset() {
     j_config = {};

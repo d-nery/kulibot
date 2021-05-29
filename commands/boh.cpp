@@ -40,7 +40,7 @@ BOHCmd::BOHCmd() {
         .add_option(gold_subcommand.add_option(
             dpp::command_option(dpp::co_integer, "value", "Valor a ser adicionado ou subtraido")))
         .add_option(items_subcommand)
-        .add_permission({698275300978720840, dpp::cpt_role, true});
+        .add_permission({config::get_snowflake("role_ids/kulike"), dpp::cpt_role, true});
 }
 
 bool BOHCmd::run(const dpp::interaction_create_t& event) {
@@ -68,10 +68,7 @@ bool BOHCmd::run(const dpp::interaction_create_t& event) {
         dpp::embed embed;
         embed.set_color(0xA7A325).set_title("Bag of Holding");
         embed.set_thumbnail(config::get_string("boh_icon"));
-        embed.footer = {"Kulikê de Obsidiana",
-                        "https://cdn.discordapp.com/attachments/637477278476927006/846208361866592286/"
-                        "7bc57694dfd9d730756198cb26df228d.png",
-                        ""};
+        embed.footer = {config::get_string("embed/footer/name"), config::get_string("embed/footer/icon"), ""};
         embed.timestamp = std::time(0);
 
         embed.add_field(

@@ -36,6 +36,15 @@ bool load(const std::string file);
 std::string get_string(const std::string key);
 
 /**
+ * @brief gets a snowflake value from the config
+ *
+ * @param key Key to be found, nested keys are separated by /
+ *
+ * @return config value or 0 if key is not found
+ */
+dpp::snowflake get_snowflake(const std::string key);
+
+/**
  * @brief resets the config, must read again with @ref load
  */
 void reset();

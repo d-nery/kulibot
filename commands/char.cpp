@@ -62,10 +62,7 @@ bool CharCmd::run(const dpp::interaction_create_t& event) {
     dpp::embed embed;
     embed.set_title(c.name).set_color(0x6632a8).set_thumbnail(c.image);
     embed.timestamp = std::time(0);
-    embed.footer = {"Kulikê de Obsidiana",
-                    "https://cdn.discordapp.com/attachments/637477278476927006/846208361866592286/"
-                    "7bc57694dfd9d730756198cb26df228d.png",
-                    ""};
+    embed.footer = {config::get_string("embed/footer/name"), config::get_string("embed/footer/icon"), ""};
 
     embed.add_field("Race", c.race, true)
         .add_field("Classes", joinVector(c.classes, "\n"), true)
@@ -80,7 +77,7 @@ bool CharCmd::run(const dpp::interaction_create_t& event) {
         .add_field("WIS", fmt::format("{} ({})", c.stats["wis"], (c.stats["wis"] - 10) / 2), true)
         .add_field("CHA", fmt::format("{} ({})", c.stats["cha"], (c.stats["cha"] - 10) / 2), true)
         .add_field("\u200B", "\u200B", false)
-        .add_field("Proeficiencies", joinVector(c.proficiencies, ", "), false)
+        .add_field("Proficiencies", joinVector(c.proficiencies, ", "), false)
         .add_field("MAX HP", std::to_string(c.max_hp), true)
         .add_field("AC", std::to_string(c.ac), true);
 

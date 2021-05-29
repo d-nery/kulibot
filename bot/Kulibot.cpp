@@ -4,6 +4,7 @@
 
 #include "Kulibot.hpp"
 #include "commands/commands.hpp"
+#include "utils/config.hpp"
 
 namespace Kulike {
 
@@ -61,15 +62,13 @@ void Kulibot::setup_interactions() {
 
             // Registering only on test guild for now, for faster command updates
             this->guild_command_create(
-                cmd->get_inner_command(), 241188169033318400, [&](const dpp::confirmation_callback_t& c) {
+                cmd->get_inner_command(), config::get_snowflake("guild_ids/thundergaming"),
+                [&](const dpp::confirmation_callback_t& c) {
                     if (!std::get<dpp::confirmation>(c.value).success) {
                         spdlog::error(fmt::format("Couldn't register command {}: {}", key, c.http_info.body));
                         return;
                     }
 
-                    // json response = json::parse(c.http_info.body);
-                    // std::string cmd_id = response["id"];
-                    // cmd->set_id(std::stoull(cmd_id));
                     spdlog::debug(fmt::format("Successfully registered command {}", key));
                 });
         }
@@ -84,7 +83,8 @@ void Kulibot::setup_interactions() {
         dpp::command_interaction cmd_data = std::get<dpp::command_interaction>(event.command.data);
 
         if (this->commands.contains(cmd_data.name)) {
-            spdlog::info(fmt::format("Running command {} by user {} [{}].", cmd_data.name, event.command.member.nickname, event.command.usr.id));
+            spdlog::info(fmt::format("Running command {} by user {} [{}].", cmd_data.name,
+                                     event.command.member.nickname, event.command.usr.id));
 
             if (!this->commands[cmd_data.name]->run(event)) {
                 spdlog::error(fmt::format("Failed to run command {}", cmd_data.name));
@@ -107,14 +107,16 @@ Kulibot::~Kulibot() {
 
     for (auto& [key, cmd] : this->commands) {
         spdlog::info(fmt::format("Deleting {}", key));
-        this->guild_command_delete(cmd->get_inner_command().id, 241188169033318400, [key](const dpp::confirmation_callback_t& c) {
-            if (!std::get<dpp::confirmation>(c.value).success) {
-                spdlog::error(fmt::format("Couldn't delete command {}: {}", key, c.http_info.body));
-                return;
-            }
+        this->guild_command_delete(cmd->get_inner_command().id, config::get_snowflake("guild_ids/thundergaming"),
+                                   [key](const dpp::confirmation_callback_t& c) {
+                                       if (!std::get<dpp::confirmation>(c.value).success) {
+                                           spdlog::error(
+                                               fmt::format("Couldn't delete command {}: {}", key, c.http_info.body));
+                                           return;
+                                       }
 
-            spdlog::debug(fmt::format("Deleted command {} [{}]", key, c.http_info.status));
-        });
+                                       spdlog::debug(fmt::format("Deleted command {} [{}]", key, c.http_info.status));
+                                   });
 
         delete cmd;
     }
