@@ -16,6 +16,15 @@
 namespace Kulike {
 namespace characters {
 
+const std::vector<std::string> stats{"str", "dex", "con", "int", "wis", "cha"};
+const std::unordered_map<std::string, std::string> skills{
+    {"acrobatics", "dex"},    {"animal handling", "wis"}, {"arcana", "int"},   {"athletics", "str"},
+    {"deception", "cha"},     {"history", "int"},         {"insight", "wis"},  {"intimidation", "cha"},
+    {"investigation", "int"}, {"medicine", "wis"},        {"nature", "int"},   {"perception", "wis"},
+    {"performance", "cha"},   {"persuasion", "cha"},      {"religion", "int"}, {"sleight of hand", "dex"},
+    {"stealth", "dex"},       {"survival", "wis"},
+};
+
 /**
  * @brief This represents a DnD character sheet
  */
@@ -34,9 +43,9 @@ struct Character {
     uint64_t owner;                             //!< Id of the character owner
 
     /**
-     * @brief rolls a dice for the given stat, adds proficiency if needed
+     * @brief rolls a d20
      */
-    uint32_t roll(std::string stat);
+    uint32_t roll();
 
     /**
      * @brief gets the modifier for the given stat

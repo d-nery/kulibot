@@ -25,32 +25,15 @@ namespace fs = std::filesystem;
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character, name, race, classes, background, alignment, image, stats, proficiencies,
                                    max_hp, ac, prof, owner);
 
-static const std::vector<std::string> stats{"str", "dex", "con", "int", "wis", "cha"};
-static const std::unordered_map<std::string, std::string> skills{
-    {"acrobatics", "dex"},    {"animal handling", "wis"}, {"arcana", "int"},   {"athletics", "str"},
-    {"deception", "cha"},     {"history", "int"},         {"insight", "wis"},  {"intimidation", "cha"},
-    {"investigation", "int"}, {"medicine", "wis"},        {"nature", "int"},   {"perception", "wis"},
-    {"performance", "cha"},   {"persuasion", "cha"},      {"religion", "int"}, {"sleight of hand", "dex"},
-    {"stealth", "dex"},       {"survival", "wis"},
-};
-
 static bool loaded = false;
 static std::unordered_map<std::string, Character> char_map;
 
-uint32_t Character::roll(std::string stat) {
-    stat = stat == "init" ? "dex" : stat;
-
-    if (!stats.contains(stat) && !skills.contains(stat)) {
-        return 0;
-    }
-
-    int mod = modifier(stat);
-
+uint32_t Character::roll() {
     std::mt19937 rng(std::random_device{}());
     std::uniform_int_distribution<int> distribution(1, 20);
     int dice_roll = distribution(rng);
 
-    return std::max(dice_roll + mod, 1);
+    return dice_roll;
 }
 
 int Character::modifier(std::string stat) {

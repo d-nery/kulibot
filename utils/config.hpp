@@ -12,6 +12,8 @@
 
 #include <string>
 
+#include <dpp/dpp.h>
+
 namespace Kulike {
 namespace config {
 

@@ -77,11 +77,9 @@ TEST_F(CharTest, GetsModifierCorrrectly) {
 TEST_F(CharTest, RollsCorrrectly) {
     auto c = Kulike::characters::get("char1");
 
-    ASSERT_EQ(c.roll("wrong"), 0);
-
     uint32_t rolls = 0;
     for (int i = 0; i < 10000; i++) {
-        rolls += c.roll("str");
+        rolls += c.roll();
     }
 
     double avg = rolls / 10000.0;

@@ -6,5 +6,18 @@
         "gold_coin": "<:gold_coin:846112143740895262>",
         "d20": "<:d20:846481339669938176>"
     },
-    "chars_folder": "data/chars"
+    "chars_folder": "data/chars",
+    "owner_id": "",
+    "role_ids": {
+        "role1": ""
+    },
+    "guild_ids": {
+        "guild1": ""
+    },
+    "embed": {
+        "footer": {
+            "name": "Kulikê de Obsidiana",
+            "icon": "https://cdn.discordapp.com/attachments/637477278476927006/846208361866592286/7bc57694dfd9d730756198cb26df228d.png"
+        }
+    }
 }
