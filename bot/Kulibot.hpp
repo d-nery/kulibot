@@ -61,7 +61,7 @@ class Kulibot : public dpp::cluster {
     /**
      * @brief Runs the bot, must have added commands and run setup.
      *
-     * @note This doesn't block
+     * @note This blocks
      */
     void run();
 };

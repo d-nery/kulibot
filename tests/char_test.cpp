@@ -46,8 +46,8 @@ TEST_F(CharTest, ParsesCharacterCorrrectly) {
     ASSERT_EQ(c.alignment, "Chaotic Good");
     ASSERT_EQ(c.image, "img.png");
     ASSERT_EQ(c.stats["str"], 10);
-    ASSERT_EQ(c.stats["dex"], 11);
-    ASSERT_EQ(c.stats["con"], 12);
+    ASSERT_EQ(c.stats["dex"], 8);
+    ASSERT_EQ(c.stats["con"], 9);
     ASSERT_EQ(c.stats["int"], 13);
     ASSERT_EQ(c.stats["wis"], 14);
     ASSERT_EQ(c.stats["cha"], 15);
@@ -65,8 +65,8 @@ TEST_F(CharTest, GetsModifierCorrrectly) {
 
     ASSERT_EQ(c.modifier("wrong"), 0);
     ASSERT_EQ(c.modifier("str"), 0);
-    ASSERT_EQ(c.modifier("dex"), 2);
-    ASSERT_EQ(c.modifier("cha"), 2);
+    ASSERT_EQ(c.modifier("dex"), 1);
+    ASSERT_EQ(c.modifier("con"), -1);
     ASSERT_EQ(c.modifier("arcana"), 3);
     ASSERT_EQ(c.modifier("deception"), 2);
 

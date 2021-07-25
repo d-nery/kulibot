@@ -40,6 +40,7 @@ BOHCmd::BOHCmd() {
         .add_option(gold_subcommand.add_option(
             dpp::command_option(dpp::co_integer, "value", "Valor a ser adicionado ou subtraido")))
         .add_option(items_subcommand)
+        .disable_default_permissions()
         .add_permission({config::get_snowflake("role_ids/kulike"), dpp::cpt_role, true});
 }
 

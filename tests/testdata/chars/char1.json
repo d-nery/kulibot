@@ -9,8 +9,8 @@
     "image": "img.png",
     "stats": {
         "str": 10,
-        "dex": 11,
-        "con": 12,
+        "dex": 8,
+        "con": 9,
         "int": 13,
         "wis": 14,
         "cha": 15

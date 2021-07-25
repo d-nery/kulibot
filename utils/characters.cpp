@@ -63,7 +63,7 @@ int Character::modifier(std::string stat) {
         extra = this->prof / 2;
     }
 
-    return (stats[base_stat] - 10) / 2 + extra;
+    return std::floor((stats[base_stat] - 10) / 2.0) + extra;
 }
 
 bool load(const std::string folder) {

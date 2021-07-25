@@ -21,8 +21,6 @@
 
 using namespace Kulike;
 
-std::atomic<bool> should_quit(false);
-
 int main() {
     spdlog::set_level(spdlog::level::level_enum::debug);
     spdlog::info("[main] Starting...");
@@ -43,17 +41,7 @@ int main() {
 
     bot.setup();
 
-    signal(SIGINT, [](int sig_num) {
-        (void)sig_num;
-
-        spdlog::info("[main] Received SIGINT, stopping...");
-        should_quit.store(true);
-    });
-
     bot.run();
-
-    while (!should_quit.load()) {
-    }
 
     spdlog::info("[main] Quitting...");
     return 0;

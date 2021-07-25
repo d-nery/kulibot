@@ -64,12 +64,24 @@ void Kulibot::setup_interactions() {
             this->guild_command_create(
                 cmd->get_inner_command(), config::get_snowflake("guild_ids/thundergaming"),
                 [&](const dpp::confirmation_callback_t& c) {
-                    if (!std::get<dpp::confirmation>(c.value).success) {
-                        spdlog::error(fmt::format("Couldn't register command {}: {}", key, c.http_info.body));
-                        return;
+                    if (c.type == "slashcommand") {
+                        if (!std::get<dpp::slashcommand>(c.value).id) {
+                            spdlog::error(fmt::format("Couldn't register command {}: {}", key, c.http_info.body));
+                            return;
+                        }
+
+                        spdlog::debug(fmt::format("Successfully registered command {}", key));
                     }
 
-                    spdlog::debug(fmt::format("Successfully registered command {}", key));
+                    if (c.type == "confirmation") {
+                        if (!std::get<dpp::confirmation>(c.value).success) {
+                            spdlog::error(
+                                fmt::format("Couldn't register command {} permissions: {}", key, c.http_info.body));
+                            return;
+                        }
+
+                        spdlog::debug(fmt::format("Successfully registered command {} permissions", key));
+                    }
                 });
         }
     });
@@ -100,7 +112,7 @@ void Kulibot::setup() {
     setup_interactions();
 }
 
-void Kulibot::run() { this->cluster::start(); }
+void Kulibot::run() { this->cluster::start(false); }
 
 Kulibot::~Kulibot() {
     spdlog::debug("Destroying kulibot...");
